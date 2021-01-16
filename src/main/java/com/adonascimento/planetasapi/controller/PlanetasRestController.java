@@ -48,13 +48,13 @@ public class PlanetasRestController {
 
     @GetMapping(value="/{dia}")
     @ResponseBody
-    public ResponseEntity<ClimaDTO> getClimaByDay(long dia) {
-       Optional<Clima> climaDelDia =  climaDao.findById(dia);
-       if (climaDelDia.isPresent()) {
+    public ResponseEntity<ClimaDTO> getClimaByDay(@PathVariable("dia") int dia) {
+       Clima climaDelDia =  climaDao.findByDia(dia);
+       if (climaDelDia != null) {
            ClimaDTO climaDTO = new ClimaDTO();
-           climaDTO.setDia(climaDelDia.get().getDia());
-           climaDTO.setTipoClima(climaDelDia.get().getTipoClima().name());
-           climaDTO.setMilimetrosLlovidos(climaDelDia.get().getMilimetrosLlovidos());
+           climaDTO.setDia(climaDelDia.getDia());
+           climaDTO.setTipoClima(climaDelDia.getTipoClima().name());
+           climaDTO.setMilimetrosLlovidos(climaDelDia.getMilimetrosLlovidos());
            return new ResponseEntity<>(climaDTO, HttpStatus.OK);
        }
        else
