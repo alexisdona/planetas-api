@@ -1,13 +1,12 @@
 package com.adonascimento.planetasapi.domain;
 
 
+import com.adonascimento.planetasapi.Exceptions.SistemaSolarException;
 import com.adonascimento.planetasapi.Factory.PlanetasFactory;
 import com.adonascimento.planetasapi.calculation.Linea;
 import com.adonascimento.planetasapi.calculation.Triangulo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,8 +23,6 @@ public class SistemaSolar {
 
     private List<Planeta> planetas;
 
-    private HashMap<Integer,Double> diasLluviosos = new HashMap<>();
-
     public SistemaSolar() {
         planetas = planetasFactory.planetasBuilder();
     }
@@ -34,7 +31,8 @@ public class SistemaSolar {
         return planetas;
     }
 
-    public boolean esDiaLluvioso(int dia){
+    public boolean esDiaLluvioso(Integer dia){
+        this.validateParams(dia);
         boolean centroIncluido;
         List<Punto> puntos = this.getPuntos(dia,this.getPlanetas());
         Triangulo triangulo = new Triangulo(
@@ -49,6 +47,7 @@ public class SistemaSolar {
     }
 
     public boolean esDiaSeco(int dia) {
+        this.validateParams(dia);
          List<Planeta> planetas = this.getPlanetas();
          double posicionY0 = Math.abs(Math.sin(planetas.get(0).getAnguloBarrido(dia)));
             for(int i=1;i<planetas.size();i++){
@@ -65,7 +64,7 @@ public class SistemaSolar {
     }
 
     public boolean esDiaOptimo(int dia) {
-
+        this.validateParams(dia);
         List<Punto> puntos = this.getPuntos(dia,this.getPlanetas());
         double pendiente = linea.calcularPendiente(puntos.get(0),puntos.get(1));
         double interseccionY = puntos.get(1).getPosicionY()-puntos.get(0).getPosicionY();
@@ -81,8 +80,8 @@ public class SistemaSolar {
 
     }
 
-    public double getMilimetrosLluvia(int dia){
-
+    public double getMilimetrosLluvia(Integer dia){
+        this.validateParams(dia);
         if (esDiaLluvioso(dia)){
             List<Punto> puntos = this.getPuntos(dia,this.getPlanetas());
             Triangulo triangulo = new Triangulo(
@@ -95,6 +94,13 @@ public class SistemaSolar {
             return triangulo.perimetroTriangulo();
         }
         return 0;
+
+    }
+
+    private void validateParams(Integer anios) {
+        if (anios==null) {
+            throw new SistemaSolarException("Debe completar el dia a procesar");
+        }
 
     }
 }

@@ -1,6 +1,8 @@
 package com.adonascimento.planetasapi.domain;
 
 
+import com.adonascimento.planetasapi.Exceptions.PlanetaException;
+
 public class Planeta {
     private String nombre;
     private double velocidadAngular;
@@ -21,12 +23,20 @@ public class Planeta {
         return Math.toRadians(velocidadAngular);
     }
 
-    public double getAnguloBarrido(int dia) {
+    public double getAnguloBarrido(Integer dia) {
+        this.validateParams(dia);
         return dia*this.getVelocidadAngular();
     }
 
     public Punto getPuntoActual(int dia) {
+        this.validateParams(dia);
         return new Punto(Math.cos(getAnguloBarrido(dia))*getDistanciaAlSol(),Math.sin(getAnguloBarrido(dia))*getDistanciaAlSol());
+    }
+
+    private void validateParams(Integer dia) {
+        if (dia == null) {
+            throw new PlanetaException("Debe informar el dia para calcular el valor.");
+        }
     }
 
 

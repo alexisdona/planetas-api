@@ -1,10 +1,10 @@
 package com.adonascimento.planetasapi.service;
 
+import com.adonascimento.planetasapi.Exceptions.PronosticadorException;
 import com.adonascimento.planetasapi.dao.ClimaDAO;
 import com.adonascimento.planetasapi.domain.Clima;
 import com.adonascimento.planetasapi.domain.SistemaSolar;
 import com.adonascimento.planetasapi.domain.TipoClima;
-import com.adonascimento.planetasapi.dto.ClimaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,34 +22,35 @@ public class Pronosticador {
     @Autowired
     private ClimaDAO climaDao;
 
-    public int getCantPeriodosSequia(int anios) {
+    public int getCantPeriodosSequia(Integer anios) {
+        this.validarCompletado(anios);
         int cantidadPeriodosSequia=0;
-        int dias = DIAS_POR_ANIO*anios;
-        for (int i=0;i<dias;i++) {
-            if (this.sistemaSolar.esDiaSeco(i)){
-                cantidadPeriodosSequia++;
+        int dias = DIAS_POR_ANIO * anios;
+            for (int i = 0; i < dias; i++) {
+                if (this.sistemaSolar.esDiaSeco(i)) {
+                    cantidadPeriodosSequia++;
+                }
             }
-
-        }
         return cantidadPeriodosSequia;
     }
 
-    public int getCantPeriodosOptimos(int anios) {
-        int cantidadPeriodosOptimos=0;
-        int dias = DIAS_POR_ANIO*anios;
-        for (int i=0;i<dias;i++) {
-            if (this.sistemaSolar.esDiaOptimo(i)){
-                cantidadPeriodosOptimos++;
-            }
+    public int getCantPeriodosOptimos(Integer anios) {
+        this.validarCompletado(anios);
+        int cantidadPeriodosOptimos = 0;
+        int dias = DIAS_POR_ANIO * anios;
+            for (int i = 0; i < dias; i++) {
+                if (this.sistemaSolar.esDiaOptimo(i)) {
+                    cantidadPeriodosOptimos++;
+                }
 
-        }
+            }
         return cantidadPeriodosOptimos;
     }
 
-    public int getCantPeriodosLluviosos(int anios) {
+    public int getCantPeriodosLluviosos(Integer anios) {
+        this.validarCompletado(anios);
         int cantidadPeriodosLluvia=0;
         int dias = DIAS_POR_ANIO*anios;
-
         for (int i=0;i<dias;i++) {
             if ((!sistemaSolar.esDiaSeco(i)&&!sistemaSolar.esDiaOptimo(i))&&sistemaSolar.esDiaLluvioso(i)){
                 cantidadPeriodosLluvia++;
@@ -59,7 +60,8 @@ public class Pronosticador {
         return cantidadPeriodosLluvia;
     }
 
-    public List<Clima> getClima(int anios) {
+    public List<Clima> getClima(Integer anios) {
+        this.validarCompletado(anios);
         List<Clima> climaExtendido = new ArrayList<>();
         int dias = DIAS_POR_ANIO*anios;
         for (int i=0;i<dias;i++) {
@@ -85,6 +87,11 @@ public class Pronosticador {
       return climaExtendido;
     }
 
+    private void validarCompletado(Integer anios) {
+        if (anios==null) {
+            throw new PronosticadorException("Debe completar la cantidad de años a procesar.");
+        }
+    }
 
 
 }
