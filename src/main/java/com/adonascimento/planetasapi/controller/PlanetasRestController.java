@@ -6,8 +6,6 @@ import com.adonascimento.planetasapi.dao.ClimaDAO;
 import com.adonascimento.planetasapi.domain.Clima;
 import com.adonascimento.planetasapi.dto.ClimaDTO;
 import com.adonascimento.planetasapi.service.Pronosticador;
-
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
