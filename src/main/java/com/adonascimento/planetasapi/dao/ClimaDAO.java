@@ -1,7 +1,6 @@
 package com.adonascimento.planetasapi.dao;
 
 import com.adonascimento.planetasapi.domain.Clima;
-import com.adonascimento.planetasapi.dto.ClimaDTO;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

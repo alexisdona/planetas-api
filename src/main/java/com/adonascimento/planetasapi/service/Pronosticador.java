@@ -5,15 +5,21 @@ import com.adonascimento.planetasapi.dao.ClimaDAO;
 import com.adonascimento.planetasapi.domain.Clima;
 import com.adonascimento.planetasapi.domain.SistemaSolar;
 import com.adonascimento.planetasapi.domain.TipoClima;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@Component
 public class Pronosticador {
 
+    private final Logger LOGGER = LoggerFactory.getLogger(Pronosticador.class);
     private static final int DIAS_POR_ANIO = 360;
 
     @Autowired
@@ -23,6 +29,7 @@ public class Pronosticador {
     private ClimaDAO climaDao;
 
     public int getCantPeriodosSequia(Integer anios) {
+        LOGGER.debug("Obteniendo la cantidad de periodos de sequía en {} años",anios);
         this.validarCompletado(anios);
         int cantidadPeriodosSequia=0;
         int dias = DIAS_POR_ANIO * anios;
@@ -35,6 +42,7 @@ public class Pronosticador {
     }
 
     public int getCantPeriodosOptimos(Integer anios) {
+        LOGGER.debug("Obteniendo la cantidad de periodos óptimos en {} años",anios);
         this.validarCompletado(anios);
         int cantidadPeriodosOptimos = 0;
         int dias = DIAS_POR_ANIO * anios;
@@ -48,6 +56,7 @@ public class Pronosticador {
     }
 
     public int getCantPeriodosLluviosos(Integer anios) {
+        LOGGER.debug("Obteniendo la cantidad de periodos lluviosos en {} años",anios);
         this.validarCompletado(anios);
         int cantidadPeriodosLluvia=0;
         int dias = DIAS_POR_ANIO*anios;
@@ -59,8 +68,15 @@ public class Pronosticador {
         }
         return cantidadPeriodosLluvia;
     }
+    public List<Clima> getDiasLluviosos(Integer anios) {
+        return this.generarClima(anios).stream().filter(dia->dia.getTipoClima().equals(TipoClima.LLUVIA)).sorted().collect(Collectors.toList());
+    }
+    public void getAndSaveClima(Integer anios) {
+        climaDao.saveAll(this.generarClima(anios));
+    }
 
-    public List<Clima> getClima(Integer anios) {
+    public List<Clima> generarClima(Integer anios) {
+        LOGGER.debug("Obteniendo el pronóstico extendido de clima para {} años ",anios);
         this.validarCompletado(anios);
         List<Clima> climaExtendido = new ArrayList<>();
         int dias = DIAS_POR_ANIO*anios;
@@ -82,16 +98,15 @@ public class Pronosticador {
 
             }
             climaExtendido.add(clima);
-            climaDao.save(clima);
         }
       return climaExtendido;
     }
 
     private void validarCompletado(Integer anios) {
         if (anios==null) {
+            LOGGER.error("Error en la obtención de datos para calcular la cantidad de periodos. ");
             throw new PronosticadorException("Debe completar la cantidad de años a procesar.");
         }
     }
-
 
 }

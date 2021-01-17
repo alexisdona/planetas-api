@@ -4,6 +4,8 @@ package com.adonascimento.planetasapi.domain;
 import com.adonascimento.planetasapi.Exceptions.PlanetaException;
 
 public class Planeta {
+
+
     private String nombre;
     private double velocidadAngular;
     private double distanciaAlSol;

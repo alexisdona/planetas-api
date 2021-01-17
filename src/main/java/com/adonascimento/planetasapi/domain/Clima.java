@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="clima")
-public class Clima {
+public class Clima implements Comparable<Clima>{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -49,5 +49,16 @@ public class Clima {
 
     public void setMilimetrosLlovidos(double milimetrosLlovidos) {
         this.milimetrosLlovidos = milimetrosLlovidos;
+    }
+
+    @Override
+    public int compareTo(Clima c) {
+        if (milimetrosLlovidos > c.getMilimetrosLlovidos()) {
+            return -1;
+        }
+        if (milimetrosLlovidos < c.getMilimetrosLlovidos()) {
+            return 1;
+        }
+        return 0;
     }
 }
