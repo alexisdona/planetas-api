@@ -12,7 +12,7 @@ import java.util.Collections;
 public class PlanetasApiApplication {
 
 	@Autowired
-	private static Pronosticador pronosticador;
+	private  Pronosticador pronosticador;
 
 	public static void main(String[] args) {
 

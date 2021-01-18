@@ -36,7 +36,19 @@ public class PronosticadorTest {
     @Test
     public void getCantPeriodosSequia_ok() {
         Integer cantPeriodosSequia = pronosticador.getCantPeriodosSequia(ANIOS);
-        Assert.assertEquals(Integer.valueOf(1181),Integer.valueOf(cantPeriodosSequia));
+        Assert.assertEquals(Integer.valueOf(21),Integer.valueOf(cantPeriodosSequia));
+    }
+
+    @Test
+    public void getCantPeriodosLluvia_ok() {
+        Integer cantPeriodosLluvia = pronosticador.getCantPeriodosLluviosos(ANIOS);
+        Assert.assertEquals(Integer.valueOf(1181),Integer.valueOf(cantPeriodosLluvia));
+    }
+
+    @Test
+    public void getCantPeriodosOptimo_ok() {
+        Integer cantPeriodosOptimos = pronosticador.getCantPeriodosOptimos(ANIOS);
+        Assert.assertEquals(Integer.valueOf(0),Integer.valueOf(cantPeriodosOptimos));
     }
 
 
