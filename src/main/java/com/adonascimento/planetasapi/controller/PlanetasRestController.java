@@ -70,20 +70,6 @@ public class PlanetasRestController {
         }
     }
 
-    @GetMapping(value="generarPronosticoExtendido")
-    @ApiOperation(httpMethod = "GET", nickname = "Generar el pronóstico extendido", value="Generar el pronóstico extendido para los años informados")
-    public ResponseEntity<List<Clima>> generarPronosticoExtendido( int anios) {
-        LOGGER.debug("Generando el pronostico extendido para los próximos {} años",anios);
-        try {
-             return ResponseEntity.ok(pronosticador.generarClima(anios));
-         }
-         catch (RestClientException e) {
-             LOGGER.error(e.getMessage());
-             throw new PronosticadorException(e.getMessage());
-         }
-    }
-
-
     @GetMapping(value="/dia/{dia}")
     @ApiOperation(httpMethod = "GET", nickname = "Obtener el clima de un día", value="Obtener el clima de un día en particular")
     @ResponseBody

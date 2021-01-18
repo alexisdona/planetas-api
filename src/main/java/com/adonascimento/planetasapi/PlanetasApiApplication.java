@@ -20,7 +20,6 @@ public class PlanetasApiApplication {
 		app.setDefaultProperties(Collections
 				.singletonMap("server.port", "8083"));
 		app.run(args);
-		//pronosticador.getClima(10);
 
 	}
 
