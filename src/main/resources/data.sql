@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS clima;
+
+CREATE TABLE clima (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  dia int  NOT NULL,
+  tipo_clima VARCHAR(250) NOT NULL,
+  milimetros_llovidos DOUBLE  DEFAULT NULL
+);

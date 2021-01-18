@@ -5,8 +5,9 @@ import javax.persistence.*;
 @Entity
 @Table(name="clima")
 public class Clima implements Comparable<Clima>{
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
     private int dia;

@@ -1,61 +1,45 @@
 package com.adonascimento.planetasapi.service;
 
+import com.adonascimento.planetasapi.Exceptions.PronosticadorException;
 import com.adonascimento.planetasapi.domain.Clima;
-import com.adonascimento.planetasapi.domain.TipoClima;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
+@SpringBootTest
+@RunWith(SpringJUnit4ClassRunner.class)
+public class PronosticadorTest {
 
-class PronosticadorTest {
+    private static final int ANIOS = 10;
 
     @Autowired
     private Pronosticador pronosticador;
 
-    private List<Clima> climaExtendido;
-    private Integer cantDiasLluvia;
-    private Integer cantDiasOptimos;
-    private Integer cantDiasSequia;
+    private List<Clima> climaExtendido = new ArrayList<>();
 
-    private final Integer ANIOS = 10;
-
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         climaExtendido = pronosticador.generarClima(ANIOS);
     }
 
 
-
     @Test
-    void getCantPeriodosSequia() {
-        List<Clima> climaSeco = climaExtendido.stream().filter(dia->dia.getTipoClima().equals(TipoClima.SECO)).collect(Collectors.toList());
-       // Assert.assertEquals
-
-
+    public void getCantPeriodosSequia_ok() {
+        Integer cantPeriodosSequia = pronosticador.getCantPeriodosSequia(ANIOS);
+        Assert.assertEquals(Integer.valueOf(1181),Integer.valueOf(cantPeriodosSequia));
     }
 
-    @Test
-    void getCantPeriodosOptimos() {
-    }
 
-    @Test
-    void getCantPeriodosLluviosos() {
-    }
 
-    @Test
-    void getDiasLluviosos() {
-    }
 
-    @Test
-    void getAndSaveClima() {
-    }
-
-    @Test
-    void generarClima() {
-    }
 }

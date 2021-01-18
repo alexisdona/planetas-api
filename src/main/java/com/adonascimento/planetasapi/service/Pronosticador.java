@@ -28,7 +28,7 @@ public class Pronosticador {
     @Autowired
     private ClimaDAO climaDao;
 
-    public int getCantPeriodosSequia(Integer anios) {
+    public int getCantPeriodosSequia(int anios) {
         LOGGER.debug("Obteniendo la cantidad de periodos de sequía en {} años",anios);
         this.validarCompletado(anios);
         int cantidadPeriodosSequia=0;
@@ -41,7 +41,7 @@ public class Pronosticador {
         return cantidadPeriodosSequia;
     }
 
-    public int getCantPeriodosOptimos(Integer anios) {
+    public int getCantPeriodosOptimos(int anios) {
         LOGGER.debug("Obteniendo la cantidad de periodos óptimos en {} años",anios);
         this.validarCompletado(anios);
         int cantidadPeriodosOptimos = 0;
@@ -55,7 +55,7 @@ public class Pronosticador {
         return cantidadPeriodosOptimos;
     }
 
-    public int getCantPeriodosLluviosos(Integer anios) {
+    public int getCantPeriodosLluviosos(int anios) {
         LOGGER.debug("Obteniendo la cantidad de periodos lluviosos en {} años",anios);
         this.validarCompletado(anios);
         int cantidadPeriodosLluvia=0;
@@ -68,14 +68,14 @@ public class Pronosticador {
         }
         return cantidadPeriodosLluvia;
     }
-    public List<Clima> getDiasLluviosos(Integer anios) {
+    public List<Clima> getDiasLluviosos(int anios) {
         return this.generarClima(anios).stream().filter(dia->dia.getTipoClima().equals(TipoClima.LLUVIA)).sorted().collect(Collectors.toList());
     }
-    public void getAndSaveClima(Integer anios) {
+    public void getAndSaveClima(int anios) {
         climaDao.saveAll(this.generarClima(anios));
     }
 
-    public List<Clima> generarClima(Integer anios) {
+    public List<Clima> generarClima(int anios) {
         LOGGER.debug("Obteniendo el pronóstico extendido de clima para {} años ",anios);
         this.validarCompletado(anios);
         List<Clima> climaExtendido = new ArrayList<>();
@@ -102,8 +102,8 @@ public class Pronosticador {
       return climaExtendido;
     }
 
-    private void validarCompletado(Integer anios) {
-        if (anios==null) {
+    private void validarCompletado(int anios) {
+        if (Integer.valueOf(anios)==null) {
             LOGGER.error("Error en la obtención de datos para calcular la cantidad de periodos. ");
             throw new PronosticadorException("Debe completar la cantidad de años a procesar.");
         }
