@@ -22,8 +22,5 @@ Cómo levantar la aplicación
 2. Por defecto levanta en el puerto 8083.
 3. Está documentada con swagger para mejor entendimiento de los servicios que expone en http://localhost:8083/swagger-ui.html
 4. Para obtener la cantidad de periodos de lluvia, sequía y optimos resolví exponerlos como servicios y consultarlos.
+5. La aplicación levanta en https://limitless-sierra-60566.herokuapp.com/swagger-ui.html
 
-Problemas que tuve
-
-Deployé la aplicación en App Engine en la url https://planetas-api-302115.uc.r.appspot.com/ , pero por algún motivo que descnoozco no logré hacerla funcionar. 
-No tengo experiencia en devops y me apoyé con tutoriales para poder hacerlo funcionar, pero quizás requiera más tiempo de pruebas.
